@@ -1,3 +1,0 @@
-GET /random
-GET /color-theme/
-GET /image-metadata-theme
