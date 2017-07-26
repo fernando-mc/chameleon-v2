@@ -1,4 +1,4 @@
-service: chameleon-color-scheme-api
+service: chameleon-color-api
 
 provider:
   name: aws
@@ -59,3 +59,7 @@ resources:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
         TableName: ${self:provider.environment.DYNAMODB_TABLE}
+
+package:
+  exclude:
+    - data-gathering/**
