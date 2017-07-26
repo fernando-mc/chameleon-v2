@@ -2,6 +2,8 @@ import boto3
 import json
 import os
 
+from colors import decimalencoder
+
 dynamodb = boto3.resource('dynamodb')
 
 
@@ -16,7 +18,10 @@ def random(event, context):
     # create a response
     response = {
         "statusCode": 200,
-        "body": json.dumps(result['Items'])
+        "body": json.dumps(
+            result['Item'], 
+            cls=decimalencoder.DecimalEncoder
+        )
     }
 
     return response
