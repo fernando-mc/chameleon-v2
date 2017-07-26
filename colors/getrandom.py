@@ -8,7 +8,7 @@ from colors import decimalencoder
 dynamodb = boto3.resource('dynamodb')
 
 
-def random(event, context):
+def getrandom(event, context):
     table = dynamodb.Table(os.environ['DYNAMODB_TABLE'])
 
     # fetch random item from the database

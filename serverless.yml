@@ -42,7 +42,7 @@ functions:
           cors: true
 
   getRandom:
-    handler: colors/random.random
+    handler: colors/getrandom.getrandom
     events:
       - http:
           path: colors/random
