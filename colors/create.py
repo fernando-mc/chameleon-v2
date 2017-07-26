@@ -25,7 +25,7 @@ def create(event, context):
         'createdAt': timestamp,
     }
 
-    # Write the todo to the database
+    # Write the color to the database
     table.put_item(Item=item)
 
     # Create a response
