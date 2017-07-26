@@ -18,27 +18,35 @@ provider:
 
 functions:
   create:
-    handler: todos/create.create
+    handler: colors/create.create
     events:
       - http:
-          path: todos
+          path: colors
           method: post
           cors: true
 
-  get:
-    handler: todos/get.get
+  delete:
+    handler: colors/delete.delete
     events:
       - http:
-          path: todos/{id}
+          path: colors/{id}
+          method: delete
+          cors: true
+
+  get:
+    handler: colors/get.get
+    events:
+      - http:
+          path: colors/{id}
           method: get
           cors: true
 
-  delete:
-    handler: todos/delete.delete
+  getRandom:
+    handler: colors/random.random
     events:
       - http:
-          path: todos/{id}
-          method: delete
+          path: colors/random
+          method: get
           cors: true
 
 resources:

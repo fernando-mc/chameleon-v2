@@ -7,14 +7,14 @@ dynamodb = boto3.resource('dynamodb')
 def delete(event, context):
     table = dynamodb.Table(os.environ['DYNAMODB_TABLE'])
 
-    # delete the todo from the database
+    # Delete the item from the database
     table.delete_item(
         Key={
             'id': event['pathParameters']['id']
         }
     )
 
-    # create a response
+    # Create a response
     response = {
         "statusCode": 200
     }

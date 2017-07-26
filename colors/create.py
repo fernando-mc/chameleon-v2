@@ -10,7 +10,7 @@ dynamodb = boto3.resource('dynamodb')
 
 def create(event, context):
     data = json.loads(event['body'])
-    if 'text' not in data:
+    if 'rgb' not in data:
         logging.error("Validation Failed")
         raise Exception("Couldn't create the color item.")
         return
@@ -21,10 +21,8 @@ def create(event, context):
 
     item = {
         'id': str(uuid.uuid1()),
-        'text': data['text'],
-        'checked': False,
+        'rgb': data['rgb'],
         'createdAt': timestamp,
-        'updatedAt': timestamp,
     }
 
     # Write the todo to the database
