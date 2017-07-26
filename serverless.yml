@@ -71,3 +71,4 @@ resources:
 package:
   exclude:
     - data-gathering/**
+    - .env/**

@@ -17,6 +17,7 @@ var/
 *.egg
 .env
 .DS_Store
+*.pyc
 
 # Serverless directories
 .serverless
