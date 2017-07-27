@@ -14,10 +14,10 @@ def getrandom(event, context):
     # fetch random item from the database
     results = table.scan()['Items']
     result = random.choice(results)
-
     # create a response
     response = {
         "statusCode": 200,
+        "headers": {"Access-Control-Allow-Origin":"*"},
         "body": json.dumps(
             result, 
             cls=decimalencoder.DecimalEncoder
