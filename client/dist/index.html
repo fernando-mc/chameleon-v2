@@ -1,0 +1,34 @@
+<div id="dominant">Hello!! I'm The dominant color</div>
+<br>
+<div id="color1">Hellllloooo! I'm color1!</div>
+<br>
+<div id="color2">Hellllloooo! I'm color2!</div>
+<br>
+<div id="color3">Hellllloooo! I'm color3!</div>
+<br>
+<div id="color4">Hellllloooo! I'm color4!</div>
+<br>
+<div id="color5">Hellllloooo! I'm color5!</div>
+<br>
+<div id="color6">Hellllloooo! I'm color6!</div>
+<br>
+<script type="text/javascript">
+
+var xmlhttp = new XMLHttpRequest();
+xmlhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+        myObj = JSON.parse(this.responseText);
+        var rgb = JSON.parse(myObj.rgb);
+        document.body.style.backgroundColor = rgb.dominant;
+        document.getElementById("color1").style.backgroundColor = rgb.palette[0];
+        document.getElementById("color2").style.backgroundColor = rgb.palette[1];
+        document.getElementById("color3").style.backgroundColor = rgb.palette[2];
+        document.getElementById("color4").style.backgroundColor = rgb.palette[3];
+        document.getElementById("color5").style.backgroundColor = rgb.palette[4];
+        document.getElementById("color6").style.backgroundColor = rgb.palette[5];
+    }
+};
+xmlhttp.open("GET", "https://uxxlh2dhp8.execute-api.us-east-1.amazonaws.com/dev/colors/random", true);
+xmlhttp.send();
+
+</script>
