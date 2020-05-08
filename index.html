@@ -1,0 +1,52 @@
+
+
+<!DOCTYPE html>
+
+<meta charset="utf-8">
+
+<title>Dropzone simple example</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.0/dropzone.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.0/dropzone.css">
+
+<div class="clsbox-1" runat="server"  >
+    <div class="dropzone clsbox" id="mydropzone">
+
+    </div>
+</div>
+
+
+<script>
+
+async function fetchAsync () {
+  let response = await fetch('https://6i9a83mpfl.execute-api.us-east-1.amazonaws.com/dev/generate');
+  let data = await response.json();
+  console.log(data)
+  return data;
+}
+
+Dropzone.autoDiscover = false;
+
+// Dropzone class:
+var myDropzone = new Dropzone("div#mydropzone", { url: "https://chameleon-photos.s3.amazonaws.com"});
+
+myDropzone.on('sending', async function(file, xhr, formData){
+    var urlData = await fetchAsync()
+    var i;
+    for (const f of Object.keys(urlData)){
+        console.log(f)
+        console.log(urlData[f])
+        formData.append(f, urlData[f]);
+    }
+    console.log(formData)
+});
+
+// document.getElementById("schemeImg").src = "https://chameleon-photos.s3.amazonaws.com/" + urlData['key'];
+
+</script>
+
+<img id="schemeImg" src="https://chameleon-photos.s3.amazonaws.com/1b5136d7-d807-4527-9621-b1aa53795b5e" style="max-height: 400px; max-width: 400px;">
+
+
+<!-- https://serverlessfoo.com/projects/chameleon/index.html -->
