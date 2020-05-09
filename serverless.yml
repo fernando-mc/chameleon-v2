@@ -18,7 +18,9 @@ provider:
       Resource: 
         - "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}"
         - "arn:aws:s3:::chameleon-photos/*"
+        - "arn:aws:s3:::chameleon-photos"
         - "arn:aws:s3:::fmc-private-assets/*"
+        - "arn:aws:s3:::fmc-private-assets"
 
 functions:
   cleaner:
@@ -76,8 +78,13 @@ resources:
         
 plugins:
   - serverless-python-requirements
+  - serverless-finch
 
 custom:
+  client:
+    bucketName: chameleon-api
+    distributionFolder: frontend
+    errorDocument: index.html
   pythonRequirements:
     dockerizePip: non-linux
 

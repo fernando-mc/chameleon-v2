@@ -4,8 +4,10 @@ import logging
 import os
 import time
 
-from generate_schemes import generate_color_scheme
+from backend import generate_schemes
 from colorthief import ColorThief
+
+generate_color_scheme = generate_schemes.generate_color_scheme
 
 dynamodb = boto3.resource('dynamodb')
 table = dynamodb.Table(os.environ['DYNAMODB_TABLE'])

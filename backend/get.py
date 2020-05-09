@@ -2,7 +2,7 @@ import boto3
 import json
 import os
 
-from colors import decimalencoder
+from backend import decimalencoder
 
 dynamodb = boto3.resource('dynamodb')
 

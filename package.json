@@ -5,6 +5,7 @@
   "main": "upload.js",
   "dependencies": {},
   "devDependencies": {
+    "serverless-finch": "^2.5.2",
     "serverless-python-requirements": "^5.1.0"
   },
   "scripts": {
