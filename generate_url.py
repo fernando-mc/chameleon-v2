@@ -21,6 +21,8 @@ def generate_presigned_url():
         ],
         ExpiresIn=3600
     )
+    response = response["fields"]
+    del response["content-length-range"]
     return response
 
 
