@@ -22,12 +22,12 @@ provider:
 
 functions:
   cleaner:
-    handler: utils/cleaner.handler
+    handler: backend/cleaner.handler
     events:
       - schedule: rate(1 day)
 
   generateUrl:
-    handler: generate_url.handler
+    handler: backend/generate_url.handler
     events: 
       - http:
           path: generate
@@ -35,7 +35,7 @@ functions:
           cors: true
 
   create:
-    handler: create.create
+    handler: backend/create.create
     events:
       - s3:
           bucket: chameleon-photos
@@ -43,7 +43,7 @@ functions:
           existing: true
 
   get:
-    handler: colors/get.get
+    handler: backend/get.get
     events:
       - http:
           path: colors/{id}
