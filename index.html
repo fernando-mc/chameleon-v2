@@ -10,43 +10,20 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.0/dropzone.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.0/dropzone.css">
 
-<div class="clsbox-1" runat="server"  >
-    <div class="dropzone clsbox" id="mydropzone">
-
-    </div>
-</div>
-
+  <div id='mydropzone' class="dropzone"></div>
+  
 
 <script>
-
-async function fetchAsync () {
-  let response = await fetch('https://6i9a83mpfl.execute-api.us-east-1.amazonaws.com/dev/generate');
-  let data = await response.json();
-  console.log(data)
-  return data;
-}
-
 Dropzone.autoDiscover = false;
 
-// Dropzone class:
-var myDropzone = new Dropzone("div#mydropzone", { url: "https://chameleon-photos.s3.amazonaws.com"});
+var fields = {"acl": "public-read", "key": "1128afe9-1d0a-45e6-9044-a468f32623ac", "AWSAccessKeyId": "ASIAYFCM6KG7RT73C36Q", "x-amz-security-token": "IQoJb3JpZ2luX2VjEKv//////////wEaCXVzLWVhc3QtMSJIMEYCIQDvzrly8vNWJ8icbb4OeTeE6IyxaEwTzCpp/w73bIYXpQIhAJxJwFKCdfftXpmLZnrh3PNo/Wku/csI7t3Lma+oos/lKuQBCOT//////////wEQARoMNTYwNjU0NjAyNjg3IgzWiMWR8HIizK/whk4quAFblNj7uQh8KBDbBxAWgM05T/WzOyYFrftE0pwmzqbAV8+oyLpAezHVjyMMHoQIjN/JWKOYmP4/enfa9Upayjy0pha2GgFFZMF+2NTxEhOxjaES986upgJP1bDXEB7cOq7wayHEEjLERKAXde+3zVdzNr3v+NsJjRAD/k5F5cqPyrs27GspPQgHVJ4VsumfhFHb2K6iHNWLu8h2W6tITSMp/k/55JR+FP0D+8z3kHCnIilrfz0hRj7EMI2w2PUFOt8Bn56SzJhB2c3+E+PL8Ce5IQ64UWS3qRQvWma4Vf6+TkrD4v/5DQmJn33M64+1a1FEJK6ofL2dKwhHOQm8Buqp/V7+COn0Q4Dzg1pFF7jhLWkkeVFiB6aKMbJ9pPNNkw8gu+gYqjRA7gUVGrRwTCeuQ9siyatyjpP6rKlFhz9ZRsj+BKoKLKyMAA5Xv0aDWC90thOoQbdq8VUj2LWXK509NEGRzYphmxjPCi3NEFs1Ydrj5UElTYXHtKZduvCv1XckLppXLdiDS8wSuALOrqDYtf6FV7I+q9WmE0jqeXVcvQ==", "policy": "eyJleHBpcmF0aW9uIjogIjIwMjAtMDUtMDlUMDM6NDA6MTZaIiwgImNvbmRpdGlvbnMiOiBbeyJhY2wiOiAicHVibGljLXJlYWQifSwgWyJjb250ZW50LWxlbmd0aC1yYW5nZSIsIDAsIDEwMDAwMDBdLCB7ImJ1Y2tldCI6ICJjaGFtZWxlb24tcGhvdG9zIn0sIHsia2V5IjogIjExMjhhZmU5LTFkMGEtNDVlNi05MDQ0LWE0NjhmMzI2MjNhYyJ9LCB7IngtYW16LXNlY3VyaXR5LXRva2VuIjogIklRb0piM0pwWjJsdVgyVmpFS3YvLy8vLy8vLy8vd0VhQ1hWekxXVmhjM1F0TVNKSU1FWUNJUUR2enJseTh2TldKOGljYmI0T2VUZUU2SXl4YUV3VHpDcHAvdzczYklZWHBRSWhBSnhKd0ZLQ2RmZnRYcG1MWm5yaDNQTm8vV2t1L2NzSTd0M0xtYStvb3MvbEt1UUJDT1QvLy8vLy8vLy8vd0VRQVJvTU5UWXdOalUwTmpBeU5qZzNJZ3pXaU1XUjhISWl6Sy93aGs0cXVBRmJsTmo3dVFoOEtCRGJCeEFXZ00wNVQvV3pPeVlGcmZ0RTBwd216cWJBVjgrb3lMcEFlekhWanlNTUhvUUlqTi9KV0tPWW1QNC9lbmZhOVVwYXlqeTBwaGEyR2dGRlpNRisyTlR4RWhPeGphRVM5ODZ1cGdKUDFiRFhFQjdjT3E3d2F5SEVFakxFUktBWGRlKzN6VmR6TnIzditOc0pqUkFEL2s1RjVjcVB5cnMyN0dzcFBRZ0hWSjRWc3VtZmhGSGIySzZpSE5XTHU4aDJXNnRJVFNNcC9rLzU1SlIrRlAwRCs4ejNrSENuSWlscmZ6MGhSajdFTUkydzJQVUZPdDhCbjU2U3pKaEIyYzMrRStQTDhDZTVJUTY0VVdTM3FSUXZXbWE0VmY2K1RrckQ0di81RFFtSm4zM002NCsxYTFGRUpLNm9mTDJkS3doSE9RbThCdXFwL1Y3K0NPbjBRNER6ZzFwRkY3amhMV2trZVZGaUI2YUtNYko5cFBOTmt3OGd1K2dZcWpSQTdnVVZHclJ3VENldVE5c2l5YXR5anBQNnJLbEZoejlaUnNqK0JLb0tMS3lNQUE1WHYwYURXQzkwdGhPb1FiZHE4VlVqMkxXWEs1MDlORUdSellwaG14alBDaTNORUZzMVlkcmo1VUVsVFlYSHRLWmR1dkN2MVhja0xwcFhMZGlEUzh3U3VBTE9ycURZdGY2RlY3SStxOVdtRTBqcWVYVmN2UT09In1dfQ==", "signature": "cHvjMeGeYtx664eQaTdE8h/LsXw="}
 
-myDropzone.on('sending', async function(file, xhr, formData){
-    var urlData = await fetchAsync()
-    var i;
-    for (const f of Object.keys(urlData)){
-        console.log(f)
-        console.log(urlData[f])
-        formData.append(f, urlData[f]);
+var myDropzone = new Dropzone("div#mydropzone", { url: "https://chameleon-photos.s3.amazonaws.com/"});
+
+myDropzone.on('sending', function(file, xhr, formData){
+    for (const f in fields){
+        formData.append(f, fields[f]);
     }
-    console.log(formData)
 });
-
-// document.getElementById("schemeImg").src = "https://chameleon-photos.s3.amazonaws.com/" + urlData['key'];
-
 </script>
 
-<img id="schemeImg" src="https://chameleon-photos.s3.amazonaws.com/1b5136d7-d807-4527-9621-b1aa53795b5e" style="max-height: 400px; max-width: 400px;">
-
-
-<!-- https://serverlessfoo.com/projects/chameleon/index.html -->

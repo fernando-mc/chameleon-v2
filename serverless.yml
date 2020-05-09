@@ -1,72 +1,88 @@
-service: chameleon-color-api
+service: chameleon-v2
 
 provider:
   name: aws
-  runtime: python2.7
+  runtime: python3.7
   environment:
     DYNAMODB_TABLE: ${self:service}-${opt:stage, self:provider.stage}
   iamRoleStatements:
     - Effect: Allow
       Action:
+        - s3:*
         - dynamodb:Query
         - dynamodb:Scan
         - dynamodb:GetItem
         - dynamodb:PutItem
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
-      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}"
+      Resource: 
+        - "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}"
+        - "arn:aws:s3:::chameleon-photos/*"
 
 functions:
-  create:
-    handler: colors/create.create
-    events:
-      - http:
-          path: colors
-          method: post
-          cors: true
+  # cleaner:
+  #   handler: cleaner.handler
+  #   events:
+  #     - schedule: rate(1 day)
 
-  delete:
-    handler: colors/delete.delete
-    events:
+  generateUrl:
+    handler: generate_url.handler
+    events: 
       - http:
-          path: colors/{id}
-          method: delete
-          cors: true
-
-  get:
-    handler: colors/get.get
-    events:
-      - http:
-          path: colors/{id}
+          path: generate
           method: get
           cors: true
 
-  getRandom:
-    handler: colors/getrandom.getrandom
-    events:
-      - http:
-          path: colors/random
-          method: get
-          cors: true
+  # create:
+  #   handler: colors/create.create
+  #   events:
+  #     - http:
+  #         path: colors
+  #         method: post
+  #         cors: true
+
+  # get:
+  #   handler: colors/get.get
+  #   events:
+  #     - http:
+  #         path: colors/{id}
+  #         method: get
+  #         cors: true
+
+  # getRandom:
+  #   handler: colors/getrandom.getrandom
+  #   events:
+  #     - http:
+  #         path: colors/random
+  #         method: get
+  #         cors: true
+
 
 resources:
   Resources:
-    ChameleonDynamoDbTable:
-      Type: 'AWS::DynamoDB::Table'
-      DeletionPolicy: Retain
+    usersTable:
+      Type: AWS::DynamoDB::Table
       Properties:
+        TableName: ${self:provider.environment.DYNAMODB_TABLE}
         AttributeDefinitions:
-          -
-            AttributeName: id
+          - AttributeName: pk
+            AttributeType: S
+          - AttributeName: sk
             AttributeType: S
         KeySchema:
-          -
-            AttributeName: id
+          - AttributeName: pk
             KeyType: HASH
-        ProvisionedThroughput:
-          ReadCapacityUnits: 1
-          WriteCapacityUnits: 1
-        TableName: ${self:provider.environment.DYNAMODB_TABLE}
+          - AttributeName: sk
+            KeyType: RANGE
+        BillingMode: PAY_PER_REQUEST
+
+        
+plugins:
+  - serverless-python-requirements
+
+custom:
+  pythonRequirements:
+    dockerizePip: non-linux
 
 package:
   exclude:

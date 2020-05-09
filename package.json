@@ -1,0 +1,23 @@
+{
+  "name": "color-scheme-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "upload.js",
+  "dependencies": {},
+  "devDependencies": {
+    "serverless-python-requirements": "^5.1.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fernando-mc/color-scheme-api.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fernando-mc/color-scheme-api/issues"
+  },
+  "homepage": "https://github.com/fernando-mc/color-scheme-api#readme"
+}
