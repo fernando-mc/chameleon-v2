@@ -19,7 +19,7 @@
     }
 
     body {
-      background-color: #373E58;
+      background-color: #EDEDE8;
     }
 
     .main-box {
@@ -28,7 +28,7 @@
 
     body>.container {
       padding: 24px;
-      background-color: #373E58;
+      background-color: #EDEDE8;
     }
 
     .hits-box {
@@ -47,7 +47,7 @@
       </div>
     </div>
   
-    <div class="ui container main-box">
+    <div id='thebodytoo' class="ui container main-box">
       <div class="ui grid">
           <div class="row mobile only">
               <br>
@@ -56,7 +56,7 @@
       </div>
       <div class="submit-box" id="form-div">
         <div class="ui brown top attached segment">
-          <h3>  Share your story:</h3>
+          <h3>Upload your image:</h3>
         </div>
         <form class="ui equal width attached segment form" id="submission">
             <div class="clsbox-1" runat="server"  >
@@ -68,21 +68,51 @@
       </div>
   
       <div class="ui horizontal divider" id="hr-divider">
-        Or
+        Then
       </div>
   
       <div class="rates-box">
         <div class="ui purple top attached segment">
+          <h3>See your color scheme:</h3>
           <div class="ui stackable grid">
-            <img id="schemeImg" class="ui centered large image" src="">
+            <img id="schemeImg" class="ui centered medium image" src="">
           </div>
         </div>
         
         <div class="ui attached segment">
           <br>
           <div class="ui three column grid">
-            <div class="ui cards" id="voices">
-  
+            <div class="ui cards" id="colors">
+              <div class="card">
+                <div id="color1" class="content">
+                  <div id="color1rgb" class="header">Color 1</div>
+                </div>
+              </div>
+              <div class="card">
+                <div id="color2" class="content">
+                  <div id="color2rgb" class="header">Color 2</div>
+                </div>
+              </div>
+              <div class="card">
+                <div id="color3" class="content">
+                  <div id="color3rgb" class="header">Color 3</div>
+                </div>
+              </div>
+              <div class="card">
+                <div id="color4" class="content">
+                  <div id="color4rgb" class="header">Color 4</div>
+                </div>
+              </div>
+              <div class="card">
+                <div id="color5" class="content">
+                  <div id="color5rgb" class="header">Color 5</div>
+                </div>
+              </div>
+              <div class="card">
+                <div id="color6" class="content">
+                  <div id="color6rgb" class="header">Color 6</div>
+                </div>
+              </div>
             </div>
   
           <br>
@@ -97,10 +127,12 @@
 
 <script>
 Dropzone.autoDiscover = false;
+Dropzone.prototype.defaultOptions.dictDefaultMessage = 'Drop files here or tap this box to generate a color scheme. Files are Limited to 1MB'
 var myDropzone = new Dropzone("div#mydropzone", { url: "https://chameleon-photos.s3.amazonaws.com/"});
 
+
 var urlData = {}
-fetch('https://6i9a83mpfl.execute-api.us-east-1.amazonaws.com/dev/generate')
+fetch('https://szriembz77.execute-api.us-east-1.amazonaws.com/dev/generate')
   .then(response => response.json())
   .then(data => 
   {
@@ -124,6 +156,24 @@ myDropzone.on('sending', async function(file, xhr, formData){
 myDropzone.on("complete", function(file) {
   myDropzone.removeFile(file);
   document.getElementById("schemeImg").src = "https://chameleon-photos.s3.amazonaws.com/" + urlData['key'];
+  fetch('https://szriembz77.execute-api.us-east-1.amazonaws.com/dev/colors/' + urlData['key'])
+  .then(response => response.json())
+  .then(data => 
+  {
+    console.log(data)
+    console.log("THE DATA")
+    var parsedData = JSON.parse(data['rgb']) 
+    document.body.style.backgroundColor = parsedData['dominant'];
+    document.getElementById('thebodytoo').style.backgroundColor = parsedData['dominant'];
+    let i = 0;
+    var palette = parsedData['palette']
+    while (i <= palette.length) { 
+      i++;
+      document.getElementById("color" + i).style.backgroundColor = palette[i-1];
+      document.getElementById("color" + i + 'rgb').innerHTML = palette[i-1];
+    }
+  });
 });
+
 
 </script>

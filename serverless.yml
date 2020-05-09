@@ -18,12 +18,13 @@ provider:
       Resource: 
         - "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}"
         - "arn:aws:s3:::chameleon-photos/*"
+        - "arn:aws:s3:::fmc-private-assets/*"
 
 functions:
-  # cleaner:
-  #   handler: cleaner.handler
-  #   events:
-  #     - schedule: rate(1 day)
+  cleaner:
+    handler: utils/cleaner.handler
+    events:
+      - schedule: rate(1 day)
 
   generateUrl:
     handler: generate_url.handler
@@ -33,21 +34,21 @@ functions:
           method: get
           cors: true
 
-  # create:
-  #   handler: colors/create.create
-  #   events:
-  #     - http:
-  #         path: colors
-  #         method: post
-  #         cors: true
+  create:
+    handler: colors/create.create
+    events:
+      - s3:
+          bucket: chameleon-photos
+          event: s3:ObjectCreated:*
+          existing: true
 
-  # get:
-  #   handler: colors/get.get
-  #   events:
-  #     - http:
-  #         path: colors/{id}
-  #         method: get
-  #         cors: true
+  get:
+    handler: colors/get.get
+    events:
+      - http:
+          path: colors/{id}
+          method: get
+          cors: true
 
   # getRandom:
   #   handler: colors/getrandom.getrandom
@@ -67,13 +68,9 @@ resources:
         AttributeDefinitions:
           - AttributeName: pk
             AttributeType: S
-          - AttributeName: sk
-            AttributeType: S
         KeySchema:
           - AttributeName: pk
             KeyType: HASH
-          - AttributeName: sk
-            KeyType: RANGE
         BillingMode: PAY_PER_REQUEST
 
         

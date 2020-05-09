@@ -13,13 +13,14 @@ def get(event, context):
     # Fetch color from the database
     result = table.get_item(
         Key={
-            'id': event['pathParameters']['id']
+            'pk': event['pathParameters']['id']
         }
     )
 
     # Create a response
     response = {
         "statusCode": 200,
+        "headers": {"Access-Control-Allow-Origin": "*"},
         "body": json.dumps(
             result['Item'], 
             cls=decimalencoder.DecimalEncoder
