@@ -35,7 +35,7 @@ functions:
           cors: true
 
   create:
-    handler: colors/create.create
+    handler: create.create
     events:
       - s3:
           bucket: chameleon-photos

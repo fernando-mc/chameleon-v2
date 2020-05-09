@@ -16,6 +16,7 @@ def get(event, context):
             'pk': event['pathParameters']['id']
         }
     )
+    print(result)
 
     # Create a response
     response = {

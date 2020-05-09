@@ -18,12 +18,14 @@ def create(event, context):
     local_file_name = '/tmp/' + s3_key
     s3.Bucket('chameleon-photos').download_file(s3_key, local_file_name)
     color_scheme = generate_color_scheme(local_file_name)
+    if os.path.exists(local_file_name):
+        os.remove(local_file_name)
     print('COLOR SCHEME:')
     print(color_scheme)
     print('COLOR SCHEME ^')
     item = {
         'pk': s3_key,
-        'rgb': color_scheme['rgb'],
+        'rgb': color_scheme,
     }
     # Write the color to the database
     table.put_item(Item=item)
