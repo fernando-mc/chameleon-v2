@@ -11,6 +11,7 @@
 <script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.4/dist/semantic.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.0/dropzone.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.0/dropzone.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore.js"></script>
 
 
 <style>
@@ -45,6 +46,18 @@
       <div class="item">
         <h2>Chameleon - The Color API</h2>
       </div>
+      <div class="right item">
+        <a href='./'>
+          <button class='ui primary button'>
+            Make another color scheme
+          </button>
+        </a>
+      </div>
+      <div class="right item">
+        <button class='ui primary button' onclick="loadExample();">
+          See an example
+        </button>
+      </div>
     </div>
   
     <div id='thebodytoo' class="ui container main-box">
@@ -75,7 +88,7 @@
         <div class="ui purple top attached segment">
           <h3>See your color scheme:</h3>
           <div class="ui stackable grid">
-            <img id="schemeImg" class="ui centered medium image" src="">
+            <img id="schemeImg" class="ui centered large image" src="">
           </div>
         </div>
         
@@ -127,7 +140,7 @@
 
 <script>
 Dropzone.autoDiscover = false;
-Dropzone.prototype.defaultOptions.dictDefaultMessage = 'Drop files here or tap this box to generate a color scheme. Files are Limited to 1MB'
+Dropzone.prototype.defaultOptions.dictDefaultMessage = 'Drop files here or tap this box to generate a color scheme. Files are Limited to 1MB and are deleted regularly.'
 var myDropzone = new Dropzone("div#mydropzone", { url: "https://chameleon-photos.s3.amazonaws.com/"});
 
 
@@ -161,6 +174,29 @@ myDropzone.on("complete", function(file){
   updatePage();
 });
 
+function loadExample(){
+  var randomExample = _.sample([1, 2, 3, 4, 5, 6]) + '.png';
+  document.getElementById("schemeImg").src = "https://chameleon-photos.s3.amazonaws.com/" + randomExample;
+  fetch('https://szriembz77.execute-api.us-east-1.amazonaws.com/dev/colors/' + randomExample)
+    .then(response => response.json())
+    .then(data => 
+    {
+      console.log(data)
+      console.log("THE DATA")
+      var parsedData = JSON.parse(data['rgb']) 
+      document.body.style.backgroundColor = parsedData['dominant'];
+      document.getElementById('thebodytoo').style.backgroundColor = parsedData['dominant'];
+      let i = 0;
+      var palette = parsedData['palette']
+      while (i <= palette.length) { 
+        i++;
+        document.getElementById("color" + i).style.backgroundColor = palette[i-1];
+        document.getElementById("color" + i + 'rgb').innerHTML = palette[i-1];
+      }
+    });
+    document.getElementById('uploadyourimage').style.display = 'none';
+}
+
 function updatePage() {
   setTimeout(() => {
     document.getElementById("schemeImg").src = "https://chameleon-photos.s3.amazonaws.com/" + urlData['key'];
@@ -181,6 +217,7 @@ function updatePage() {
         document.getElementById("color" + i + 'rgb').innerHTML = palette[i-1];
       }
     });
+    document.getElementById('uploadyourimage').style.display = 'none';
   }, 5000)
 }
 

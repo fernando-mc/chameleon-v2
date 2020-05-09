@@ -11,5 +11,9 @@ def handler(event, context):
             'Bucket': 'fmc-private-assets',
             'Key': 'chameleon/' + key_without_folder_prefix
         }
-        bucket.copy(copy_source, key_without_folder_prefix)
+        bucket.copy(
+            copy_source, 
+            key_without_folder_prefix, 
+            ExtraArgs={'ACL': 'public-read'}
+        )
     return f'success deleting all objects in {bucket} and resetting main images.'
