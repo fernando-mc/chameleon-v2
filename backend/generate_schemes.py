@@ -1,14 +1,11 @@
-import boto3
 import json
-import logging
-import uuid
-
 from colorthief import ColorThief
+
 
 def generate_color_scheme(filename):
     # Loop over images and get dominant color and palette for each
     color_thief = ColorThief(filename)
-    dominant_color = 'rgb'+ str(color_thief.get_color(quality=1))
+    dominant_color = 'rgb' + str(color_thief.get_color(quality=1))
     palette = color_thief.get_palette(color_count=6)
     # Setup for next loop
     palette_template = ''
@@ -24,11 +21,11 @@ def generate_color_scheme(filename):
 # {
 #     "dominant": "(232, 240, 229)",
 #     "palette": [
-#         "(103, 119, 45)", 
+#         "(103, 119, 45)",
 #         "(50, 88, 57)",
-#         "(237, 244, 238)", 
+#         "(237, 244, 238)",
 #         "(119, 156, 121)",
-#         "(80, 119, 94)", 
+#         "(80, 119, 94)",
 #         "(173, 190, 128)"
 #     ]
 # }
