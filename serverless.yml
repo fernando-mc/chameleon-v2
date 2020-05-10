@@ -66,7 +66,7 @@ resources:
             KeyType: HASH
         BillingMode: PAY_PER_REQUEST
 
-        
+
 plugins:
   - serverless-python-requirements
   - serverless-finch
@@ -78,8 +78,3 @@ custom:
     errorDocument: index.html
   pythonRequirements:
     dockerizePip: non-linux
-
-package:
-  exclude:
-    - data-gathering/**
-    - .env/**
