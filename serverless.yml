@@ -52,15 +52,6 @@ functions:
           method: get
           cors: true
 
-  # getRandom:
-  #   handler: colors/getrandom.getrandom
-  #   events:
-  #     - http:
-  #         path: colors/random
-  #         method: get
-  #         cors: true
-
-
 resources:
   Resources:
     usersTable:
