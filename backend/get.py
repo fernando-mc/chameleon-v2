@@ -2,8 +2,6 @@ import boto3
 import json
 import os
 
-from backend import decimalencoder
-
 dynamodb = boto3.resource('dynamodb')
 
 
@@ -23,8 +21,7 @@ def get(event, context):
         "statusCode": 200,
         "headers": {"Access-Control-Allow-Origin": "*"},
         "body": json.dumps(
-            result['Item'], 
-            cls=decimalencoder.DecimalEncoder
+            result['Item']
         )
     }
 
