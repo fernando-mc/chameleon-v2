@@ -168,7 +168,7 @@ myDropzone.on('sending', async function(file, xhr, formData){
 
 myDropzone.on("complete", function(file){
   myDropzone.removeFile(file);
-  document.getElementById('uploadyourimage').innerHTML = 'Generating your color scheme...';
+  document.getElementById('uploadyourimage').innerHTML = 'Generating your color scheme... Give it a sec!';
   document.getElementById('mydropzone').style.display = 'none';
   document.getElementById('hr-divider').style.display = 'none';
   updatePage();
@@ -218,7 +218,7 @@ function updatePage() {
       }
     });
     document.getElementById('uploadyourimage').style.display = 'none';
-  }, 5000)
+  }, 10000)
 }
 
 </script>

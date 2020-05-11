@@ -38,6 +38,7 @@ functions:
 
   create:
     handler: backend/create.create
+    timeout: 10
     events:
       - s3:
           bucket: chameleon-photos
